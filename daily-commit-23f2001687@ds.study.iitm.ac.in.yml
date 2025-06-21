@@ -1,0 +1,25 @@
+name: Daily Commit - 23f2001687@ds.study.iitm.ac.in
+
+on:
+  schedule:
+    - cron: '30 5 * * *'   # runs daily at 5:30 AM UTC
+  workflow_dispatch:       # allows manual trigger for testing
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Make a change
+        run: |
+          echo "Daily run at $(date)" >> log.txt
+
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "23f2001687@ds.study.iitm.ac.in"
+          git add log.txt
+          git commit -m "Daily commit - $(date)" || echo "No changes to commit"
+          git push
