@@ -17,9 +17,11 @@ jobs:
           echo "Daily run at $(date)" >> log.txt
 
       - name: Commit changes
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "23f2001687@ds.study.iitm.ac.in"
           git add log.txt
           git commit -m "Daily commit - $(date)" || echo "No changes to commit"
-          git push
+          git push https://x-access-token:${TOKEN}@github.com/${{ github.repository }}.git HEAD:main
